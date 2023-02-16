@@ -1,9 +1,9 @@
 <template>
     <div
-        class="w-full p-6 bg-opacity-70 bg-sky-100 lg:justify-center flex text-xl text-sky-700"
+        class="w-full p-6 bg-opacity-70 bg-sky-100 lg:justify-center flex text-xl text-gray-700"
         :class="[
             open
-                ? 'absolute flex bg-[#0369A1] lg:bg-inherit transform origin-top-right transition duration-300 fade-in-out h-full bg-opacity-90'
+                ? 'absolute flex bg-[#0369A1] lg:bg-inherit transform origin-top-right transition h-full bg-opacity-90'
                 : '',
             $route.name === 'aboutPage' || $route.name === 'contactPage'
                 ? 'bg-sky-700 text-white'
@@ -74,17 +74,45 @@
                         >
                     </button>
                 </div>
+
                 <div>
                     <button @click="closeMenu">
-                        <router-link to="/login" class="hover:font-semibold"
-                            >login</router-link
+                        <router-link
+                            to="/editprofile"
+                            class="hover:font-semibold"
+                            v-if="auth.authenticated || auth.user"
+                            >Edit profile</router-link
                         >
                     </button>
                 </div>
                 <div>
                     <button @click="closeMenu">
-                        <router-link to="/oprojektu" class="hover:font-semibold"
-                            >O projektu</router-link
+                        <router-link
+                            to="/signin"
+                            @click="logout"
+                            class="hover:font-semibold"
+                            v-if="auth.authenticated || auth.user"
+                            >Logout</router-link
+                        >
+                    </button>
+                </div>
+                <div>
+                    <button @click="closeMenu">
+                        <router-link
+                            to="/signup"
+                            class="hover:font-semibold"
+                            v-if="!auth.authenticated && !auth.user"
+                            >Sign Up</router-link
+                        >
+                    </button>
+                </div>
+                <div>
+                    <button @click="closeMenu">
+                        <router-link
+                            to="/signin"
+                            class="hover:font-semibold"
+                            v-if="!auth.authenticated && !auth.user"
+                            >Sign in</router-link
                         >
                     </button>
                 </div>
@@ -94,11 +122,13 @@
 </template>
 
 <script>
+import { Auth } from '../services/index.js'
 export default {
     name: 'appHeader',
     data() {
         return {
             open: false,
+            auth: Auth.state,
         }
     },
     methods: {
@@ -107,6 +137,10 @@ export default {
         },
         toggle() {
             this.open = !this.open
+        },
+        logout() {
+            Auth.logout()
+            this.$router.push({ name: 'signIn' })
         },
     },
 }

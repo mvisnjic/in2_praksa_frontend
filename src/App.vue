@@ -7,7 +7,7 @@ import AppFooter from './components/appFooter.vue'
 
 <template>
     <div
-        class="bg-[url('/background1.jpg')] bg-cover"
+        class="bg-[url('https://images8.alphacoders.com/115/thumb-1920-1156488.png')] bg-cover"
         :class="{
             'bg-none':
                 $route.name === 'aboutPage' || $route.name === 'contactPage',

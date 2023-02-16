@@ -1,20 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import indexPage from '../views/indexPage.vue'
-import aboutPage from '../views/aboutPage.vue'
+import signup from '../views/signUp.vue'
+import signin from '../views/signIn.vue'
 import notFound from '../views/404.vue'
+import editProfile from '../views/editProfile.vue'
 
 const routes = [
     {
         path: '/',
         name: 'indexPage',
         component: indexPage,
-        meta: { title: 'Dobro došli | FIPUbot' },
+        meta: { title: 'Dobro došli' },
     },
     {
-        path: '/login',
-        name: 'aboutPage',
-        component: aboutPage,
-        meta: { title: 'O projektu | FIPUbot' },
+        path: '/signup',
+        name: 'signUp',
+        component: signup,
+        meta: { title: 'Sign Up' },
+    },
+    {
+        path: '/signin',
+        name: 'signIn',
+        component: signin,
+        meta: { title: 'Sign In' },
+    },
+    {
+        path: '/editprofile',
+        name: 'editProfile',
+        component: editProfile,
+        meta: { title: 'Edit profile' },
     },
     {
         path: '/:pathMatch(.*)*',
