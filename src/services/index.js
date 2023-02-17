@@ -10,18 +10,20 @@ let Auth = {
     async registerUser(
         firstName,
         lastName,
-        username,
         email,
         password,
-        twoFactor
+        confirmPassword,
+        twoFactor,
+        acceptTerms
     ) {
         let response = await baseApi.post('accounts/register', {
             firstName,
             lastName,
-            username,
             email,
             password,
+            confirmPassword,
             twoFactor,
+            acceptTerms,
         })
         let user = response.data
         return true
@@ -46,11 +48,16 @@ let Auth = {
         })
 
         let user = res.data
-        console.log('user', user.jwtToken)
         localStorage.setItem('user', JSON.stringify(user))
         return true
     },
+    async deleteAccount(id) {
+        let res = await baseApi.delete(`accounts/${id}`)
 
+        let user = res.data
+
+        return true
+    },
     logout() {
         localStorage.removeItem('user')
     },

@@ -73,12 +73,18 @@
                     <option value="Disabled">Disable</option>
                 </select>
             </div>
-            <div class="mt-12">
+            <div class="mt-12 space-x-6">
                 <button
                     @click="updateUser"
                     class="bg-gradient-to-r from-indigo-600 to-violet-300 hover:from-indigo-700 hover:to-violet-400 text-white p-4 font-semibold font-display hover:bg-[#244B8E] rounded-full cursor-pointer"
                 >
                     Edit profile
+                </button>
+                <button
+                    @click="deleteUser"
+                    class="bg-gradient-to-r from-red-600 to-red-300 hover:from-red-700 hover:to-red-400 text-white p-4 font-semibold font-display hover:bg-[#fc0101] rounded-full cursor-pointer"
+                >
+                    Delete profile
                 </button>
             </div>
         </div>
@@ -113,6 +119,18 @@ export default {
                 )
                 console.log('twofactor', this.twoFactorSelect)
                 console.log(success)
+                if (success) {
+                    this.$router.push('/signin')
+                    Auth.logout()
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async deleteUser() {
+            try {
+                let success = await Auth.deleteAccount(this.auth.user.id)
+
                 if (success) {
                     this.$router.push('/signin')
                     Auth.logout()

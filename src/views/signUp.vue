@@ -9,7 +9,7 @@
         </div>
 
         <form @submit.prevent="registerUser">
-            <div class="flex flex-col items-center py-8">
+            <div class="flex flex-col items-center py-6">
                 <div class="flex flex-col items-start justify-between w-1/2">
                     <div
                         class="text-md md:text-lg font-bold text-white md:text-slate-300"
@@ -48,7 +48,7 @@
                     </div>
                     <input
                         class="w-full text-black text-sm md:text-md py-2 pl-2 border-b border-slate-700"
-                        type="username"
+                        type="email"
                         v-model="email"
                         placeholder="name@gmail.com"
                         required
@@ -90,7 +90,20 @@
                     class="text-red-400 text-sm font-display font-semibold pt-2"
                     >Password doesn't match</span
                 >
-                <div class="mt-12">
+                <div class="flex flex-row items-start w-1/2">
+                    <div
+                        class="text-md md:text-lg font-bold text-white md:text-slate-300"
+                    >
+                        Accept terms:
+                    </div>
+                    <input
+                        class="text-black text-sm md:text-md py-2 pl-2 border-b border-slate-700 ml-4 self-center"
+                        type="checkbox"
+                        v-model="checkboxTerms"
+                        required
+                    />
+                </div>
+                <div class="mt-10">
                     <button
                         type="submit"
                         :disabled="password && passwordRepeat !== password"
@@ -114,24 +127,26 @@ export default {
             open: false,
             firstName: '',
             lastName: '',
-            username: '',
             email: '',
             password: '',
             passwordRepeat: '',
             wrongPassword: false,
+            checkboxTerms: false,
         }
     },
     methods: {
         async registerUser() {
             let twoFactor = false // default is false
+            console.log(this.checkboxTerms)
             try {
                 let success = await Auth.registerUser(
                     this.firstName,
                     this.lastName,
-                    this.username,
                     this.email,
                     this.password,
-                    twoFactor
+                    this.passwordRepeat,
+                    twoFactor,
+                    this.checkboxTerms
                 )
                 if (success) {
                     this.$router.push({ name: 'signIn' })
@@ -140,7 +155,7 @@ export default {
             } catch (e) {
                 this.wrongPassword = true
                 this.wrongPasswordRetype = false
-                throw new Error('Wrong password.')
+                throw new Error('Something went wrong.')
             }
         },
     },
